@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<li><a href="{{ url_for('home') }}">Home</a></li>
+<br>
+
+<h1>Add Ingredients</h1>
+
+<form method="POST">
+    Add Quantity Ingredients <br>
+    Name: <input type = "text" name = "name1" value = ""> <br>
+    Kind: <input type = "text" name = "kind1" value = ""  placeholder="Enter 'm', 's' or 'd'"> <br>
+    Stock: <input type = "number" name = "stock1" value = ""> <br>
+    Price: <input type = "number" name = "price" value = ""> <br>
+    <button name="quantity" type="submit">Add Quantity Ingredients</button> <br>
+    <br>
+
+    Add Weight Ingredients <br>
+    Name: <input type = "text" name = "name2" value = ""> <br>
+    Kind: <input type = "text" name = "kind2" value = ""  placeholder="Enter 'm', 's' or 'd'"> <br>
+    Stock: <input type = "number" name = "stock2" value = ""> <br>
+    Small Weight: <input type = "number" name = "sWeight" value = ""> <br>
+    Medium Weight: <input type = "number" name = "mWeight" value = ""> <br>
+    Large Weight: <input type = "number" name = "lWeight" value = ""> <br>
+    Small Price: <input type = "number" name = "sPrice" value = ""> <br>
+    Medium Price: <input type = "number" name = "mPrice" value = ""> <br>
+    Large Price: <input type = "number" name = "lPrice" value = ""> <br>
+    <button name="weight" type="submit">Add Weight Ingredients</button> <br>
+    
+</form>
+
+
+{% endblock %}

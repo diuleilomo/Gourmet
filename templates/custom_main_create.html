@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<ul>
+    <li><a href="{{ url_for('home') }}">Cancel order and go back to the Homepage.</a></li>
+</ul>
+<br>
+
+<h1>Create your own gourmet food!</h1>
+<br>
+
+<h2>Choose from our fresh ingredients</h2>
+
+<h2>Input amounts to add or remove from your order.</h2>
+
+<form method="POST">
+{% for item in ing %}
+    {% if item.kind == 'm' %}
+
+        {% if item|isQIngredient %}
+            {{item.name}}: ${{item.price}}: <input type = "number" name = "{{item.name}}" value = "0"> <br>
+        {% endif %}
+
+        {% if item|isWIngredient %}
+            {{item.name}}: 
+            Small, ${{item.sPrice}}: <input type = "number" name = "s{{item.name}}" value = "0"> 
+            Medium, ${{item.mPrice}} <input type = "number" name = "m{{item.name}}" value = "0"> 
+            Large, ${{item.lPrice}} <input type = "number" name = "l{{item.name}}" value = "0"> 
+            <br>
+        {% endif %}
+        
+    {% endif %}
+{% endfor %}
+
+    <br><br>
+    <input type='submit' name ='add' value = 'Add or remove from order' />
+    <br>
+    <br>
+    <input type="submit" name = "base_main" value="Choose from predesigned burgers and wraps" />
+    <input type="submit" name = "side_drink" value="Choose sides and drinks" />
+    <input type="submit" name = "checkout" value="View cart and checkout" />
+</form>
+<br>
+
+
+{{msg1}}
+<br>
+{{msg6}}
+<br>
+{{msg2}}
+<br>
+{{msg3}}
+<br>
+{{msg4}}
+<br>
+{{msg5}}
+<br><br>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'home.html' %}
+{% block body %}
+
+<li><a href="{{ url_for('home') }}">Home</a></li>
+<br>
+
+<h1>Check Order Status</h1>
+
+<form method = 'POST'>
+    Please enter your orderID: <input type = 'number' name = 'orderID' value = ''> 
+    <button name = 'check' type = 'submit'>Check Order</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<ul>
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+</ul>
+<br>
+
+<h1>Payment Successful</h1>
+<br>
+
+<h2>Your Order ID is: {{currOrder.orderID}}</h2>
+<h3>Your order is currently cooking.</h3> 
+<h3>Please check its status using your Order ID on the status page, to be notified when it's ready to pickup.</h3>
+
+<!-- button to take customer to status page -->
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends 'layout.html' %}
+{% block body %}
+<ul>
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('new_order') }}">Place an Online Order</a></li>
+    <li><a href="{{ url_for('view_ingredients') }}">Ingredients Overview</a></li>
+    <li><a href="{{ url_for('add_ingredients') }}">Add/Delete Ingredients</a></li>
+    <li><a href="{{ url_for('view_order') }}">View Orders(Staff access only)</a></li>
+    <br>
+</ul>
+<br>
+
+<hr> Current Orders </hr>
+
+<form action="{{ url_for('view_order') }}" method="get">
+    <input type="text" name="search_order" placeholder="type order id here...">
+    <input type="submit" value="Search">
+</form>
+<br><br>
+
+{{msg1}}
+{{msg2}}
+{% if order|length != 0 %}
+{% for i in order %}
+
+<h1>Order ID: {{ i.orderID}} found</h1><br>
+
+<table>
+
+  <tr>
+    <th>Order Id</th>
+    <th>Order status</th>
+    <th>Order main</th>
+    <th>Order sided and drinks</th>
+    <th>   Order total price   </th>
+
+  </tr>
+  <tr>
+        
+      <td>{{i.orderID}} </td>
+      <td>{{i.status}}</td>
+
+      <td>
+        {% for main in i.mains %}
+
+        <br>
+        Type:{{main.type}}
+        {% for ing in main.ingredients %}
+           {% if ing[2]|isNone %}
+              <li>{{ing[1]}} x {{ing[0].name|capitalize}}</li>
+            {% else %}
+              <li>{{ing[1]}} x {{ing[2]|capitalize}} {{ing[0].name|capitalize}}</li>
+            {% endif %}
+         {% endfor %}
+        {% endfor %}
+        <br>
+      </td>
+
+      <td><ul>
+          {% for sd in i.sideDrinks %}
+              {% if sd[0].kind == 's' %} 
+                  {% if sd[2]|isNone %}
+                      <li>{{sd[1]}} x {{sd[0].name|capitalize}}</li>
+                  {% else %}
+                      <li>{{sd[1]}} x {{sd[2]|capitalize}} {{sd[0].name|capitalize}}</li>
+                  {% endif %}
+              {% endif %}    
+          {% endfor %}
+          </ul>
+
+          <ul>
+              {% for sd in i.sideDrinks %}
+                  {% if sd[0].kind == 'd' %} 
+                      {% if sd[2]|isNone %}
+                          <li>{{sd[1]}} x {{sd[0].name|capitalize}}</li>
+                      {% else %}
+                          <li>{{sd[1]}} x {{sd[2]|capitalize}} {{sd[0].name|capitalize}}</li>
+                      {% endif %}
+                  {% endif %}    
+              {% endfor %}
+              </ul>
+        
+        </td>
+      <td>{{i.price}}</td>
+      <td><form action="{{ url_for('notify_customer') }}" method="POST">
+        {%if i.status == "ready for pickup"%}
+        <button name = 'notify' type = 'submit' value = {{i.orderID}}>Nofity customer</button> {%endif%}
+    </form></td>
+      <form action="{{ url_for('updated_status') }}" method="POST">
+          <td><button name = 'ready' type = 'submit' value = {{i.orderID}}>Update status to ready</button>
+            <button name = 'cooking' type = 'submit' value = {{i.orderID}}>Update status to cooking</button> 
+        </form>
+  
+  </tr>
+{% endfor %}
+{% endif %}
+
+
+</table>
+
+
+<br><br>
+
+
+<h1>Results: {{ results|length }} orders found</h1><br>
+{% if results|length != 0 %}
+<table>
+
+  <tr>
+    <th>Order Id</th>
+    <th>Order status</th>
+    <th>Order main</th>
+    <th>Order sided and drinks</th>
+    <th>Order total price</th>
+
+  </tr>
+    {% for i in results %}
+        <tr>
+        
+            <td>{{i.orderID}} </td>
+            <td>{{i.status}}</td>
+
+            <td>
+              {% for main in i.mains %}
+
+              <br>
+              Type:{{main.type}}
+              {% for ing in main.ingredients %}
+                 {% if ing[2]|isNone %}
+                    <li>{{ing[1]}} x {{ing[0].name|capitalize}}</li>
+                  {% else %}
+                    <li>{{ing[1]}} x {{ing[2]|capitalize}} {{ing[0].name|capitalize}}</li>
+                  {% endif %}
+               {% endfor %}
+              {% endfor %}
+              <br>
+            </td>
+
+            <td><ul>
+                {% for sd in i.sideDrinks %}
+                    {% if sd[0].kind == 's' %} 
+                        {% if sd[2]|isNone %}
+                            <li>{{sd[1]}} x {{sd[0].name|capitalize}}</li>
+                        {% else %}
+                            <li>{{sd[1]}} x {{sd[2]|capitalize}} {{sd[0].name|capitalize}}</li>
+                        {% endif %}
+                    {% endif %}    
+                {% endfor %}
+                </ul>
+
+                <ul>
+                    {% for sd in i.sideDrinks %}
+                        {% if sd[0].kind == 'd' %} 
+                            {% if sd[2]|isNone %}
+                                <li>{{sd[1]}} x {{sd[0].name|capitalize}}</li>
+                            {% else %}
+                                <li>{{sd[1]}} x {{sd[2]|capitalize}} {{sd[0].name|capitalize}}</li>
+                            {% endif %}
+                        {% endif %}    
+                    {% endfor %}
+                    </ul>
+              
+              </td>
+            <td>{{i.price}}</td>
+            <form action="{{ url_for('notify_customer') }}" method="POST">
+                <td>{%if i.status == "ready for pickup"%}
+                    <button name = 'notify' type = 'submit' value = {{i.orderID}}>Nofity customer</button> 
+                    {%endif%}
+                </td>
+              </form>
+          <form action="{{ url_for('updated_status') }}" method="POST">
+              <td><button name = 'ready' type = 'submit' value = {{i.orderID}}>Update status to ready</button>
+                <button name = 'cooking' type = 'submit' value = {{i.orderID}}>Update status to cooking</button> 
+            </form>
+        
+        </tr>
+{% endfor %}
+
+</table>
+{% endif %}
+
+{% endblock %}

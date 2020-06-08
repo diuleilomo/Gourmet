@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<h1>Order Menu</h1>
+<ul>
+<li><a href="{{ url_for('home') }}">Cancel order and go back to the Homepage</a></li>
+<li><a href="{{ url_for('base_main') }}">Choose from predesigned burgers and wraps</a></li>
+<li><a href="{{ url_for('custom_main') }}">Create your own custom gourmet burger or wrap</a></li>
+<li><a href="{{ url_for('side_drink') }}">Choose sides and drinks</a></li>
+</ul>
+
+{% endblock %}

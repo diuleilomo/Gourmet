@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<li><a href="{{ url_for('home') }}">Home</a></li>
+<br>
+
+<h1>Check Order Status</h1>
+
+{% if result is not none %}
+    Your order status is {{result}} <br>
+{% else %}
+    OrderID not exist in the system <br>
+{% endif %}
+
+<li><a href="{{ url_for('check_order') }}">Back</a></li>
+
+{% endblock %}

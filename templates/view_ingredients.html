@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<li><a href="{{ url_for('home') }}">Home</a></li>
+<br>
+
+<h1>Ingredients Overview</h1>
+
+
+    <form method = 'POST'>
+        Set Filter
+        <select name="filter">
+            <option value="">All</option>
+            <option value="main">Mains only</option>
+            <option value="side">Sides only</option>
+            <option value="drink">Drinks only</option>
+        </select>
+        <input type="submit">
+
+        {% if filter == "" %}
+            {% for item in ingredients %}
+                <p>{{item}} <br>
+                Current stock: <input type = 'number' name = "new_stock{{item.id}}" value = {{item.stock}}>
+                <button name = 'stock' type = 'submit' value = {{item.id}}>Update Stock</button>
+                <button name = 'delete' type = 'submit' value = {{item.id}}>Delete Ingredient</button> 
+                <br>
+            {% endfor %}
+        {% elif filter == 'main' %}
+            {% for item in ingredients %}
+                {% if item.kind == 'm' %}
+                    <p>{{item}} <br>
+                    Current stock: <input type = 'number' name = "new_stock{{item.id}}" value = {{item.stock}}>
+                    <button name = 'stock' type = 'submit' value = {{item.id}}>Update Stock</button>
+                    <button name = 'delete' type = 'submit' value = {{item.id}}>Delete Ingredient</button> 
+                    <br>
+                {% endif %}
+            {% endfor %}   
+        {% elif filter == 'side' %}
+            {% for item in ingredients %}
+                {% if item.kind == 's' %}
+                    <p>{{item}} <br>
+                    Current stock: <input type = 'number' name = "new_stock{{item.id}}" value = {{item.stock}}>
+                    <button name = 'stock' type = 'submit' value = {{item.id}}>Update Stock</button>
+                    <button name = 'delete' type = 'submit' value = {{item.id}}>Delete Ingredient</button> 
+                    <br>
+                {% endif %}
+            {% endfor %}  
+        {% elif filter == 'drink' %}
+            {% for item in ingredients %}
+                {% if item.kind == 'd' %}
+                    <p>{{item}} <br>
+                    Current stock: <input type = 'number' name = "new_stock{{item.id}}" value = {{item.stock}}>
+                    <button name = 'stock' type = 'submit' value = {{item.id}}>Update Stock</button>
+                    <button name = 'delete' type = 'submit' value = {{item.id}}>Delete Ingredient</button> 
+                    <br>
+                {% endif %}
+            {% endfor %}  
+        {% endif %}
+    </form>
+
+{% endblock %}

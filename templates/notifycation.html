@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block body %}
+<ul>
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('new_order') }}">Place an Online Order</a></li>
+    <li><a href="{{ url_for('view_ingredients') }}">Ingredients Overview</a></li>
+    <li><a href="{{ url_for('add_ingredients') }}">Add/Delete Ingredients</a></li>
+    <li><a href="{{ url_for('view_order') }}">View Orders(Staff access only)</a></li>
+    <br>
+</ul>
+
+<h1>Your Order is ready for pick up</h1>
+{% endblock %}

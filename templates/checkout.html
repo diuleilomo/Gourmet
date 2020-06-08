@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<ul>
+    <li><a href="{{ url_for('home') }}">Cancel order and go back to the Homepage.</a></li>
+</ul>
+<br>
+
+<h1>Checkout</h1>
+<br>
+
+<form method="POST">
+
+<h2>Your Order</h2>
+
+<h3>Mains ${{currOrder.price_mains|round(2, 'ceil')}}</h3>
+
+{% for main in mains %}
+    <h4>{{main.type|capitalize}}: ${{main.price|round(2, 'ceil')}}</h4>
+    <ul>
+    {% for ing in main.ingredients %}
+        {% if ing[2]|isNone %}
+            <li>{{ing[1]}} x {{ing[0].name|capitalize}}</li>
+        {% else %}
+            <li>{{ing[1]}} x {{ing[2]|capitalize}} {{ing[0].name|capitalize}}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% endfor %}
+
+<h3>Sides: ${{currOrder.price_sides|round(2, 'ceil')}}</h3>
+
+<ul>
+{% for sd in sideDrinks %}
+    {% if sd[0].kind == 's' %} 
+        {% if sd[2]|isNone %}
+            <li>{{sd[1]}} x {{sd[0].name|capitalize}}</li>
+        {% else %}
+            <li>{{sd[1]}} x {{sd[2]|capitalize}} {{sd[0].name|capitalize}}</li>
+        {% endif %}
+    {% endif %}    
+{% endfor %}
+</ul>
+
+<h3>Drinks ${{currOrder.price_drinks|round(2, 'ceil')}}</h3>
+<ul>
+{% for sd in sideDrinks %}
+    {% if sd[0].kind == 'd' %} 
+        {% if sd[2]|isNone %}
+            <li>{{sd[1]}} x {{sd[0].name|capitalize}}</li>
+        {% else %}
+            <li>{{sd[1]}} x {{sd[2]|capitalize}} {{sd[0].name|capitalize}}</li>
+        {% endif %}
+    {% endif %}    
+{% endfor %}
+</ul>
+
+<h2>Total: ${{currOrder.price|round(2, 'ceil')}}</h2>
+
+    <br><br>
+    <input type='submit' name ='pay' value = 'Pay for Order' />
+    <br>
+    <br>
+</form>
+<br>
+
+<br><br>
+<form action="{{ url_for('base_main') }}">
+        <input type="submit" value="Choose from predesigned burgers and wraps" />
+</form>
+<form action="{{ url_for('custom_main') }}">
+        <input type="submit" value="Create your own custom gourmet burger or wrap" />
+</form>
+<form action="{{ url_for('side_drink') }}">
+    <input type="submit" value="Choose sides and drinks" />
+</form>
+{% endblock %}

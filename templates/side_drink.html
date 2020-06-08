@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<ul>
+    <li><a href="{{ url_for('home') }}">Cancel order and go back to the Homepage.</a></li>
+</ul>
+<br>
+
+<h1>Choose from our delicious sides and refreshing drinks!</h1>
+<br>
+
+<h2>Input amounts to add or remove from your order.</h2>
+
+<form method="POST">
+
+<h2>Sides</h2>
+
+{% for item in ing %}
+    {% if item.kind == 's' %}
+
+        {% if item|isQIngredient %}
+            {{item.name}}: ${{item.price}}: <input type = "number" name = "{{item.name}}" value = "0"> <br>
+        {% endif %}
+
+        {% if item|isWIngredient %}
+            {{item.name}}: 
+            Small, ${{item.sPrice}}: <input type = "number" name = "s{{item.name}}" value = "0"> 
+            Medium, ${{item.mPrice}} <input type = "number" name = "m{{item.name}}" value = "0"> 
+            Large, ${{item.lPrice}} <input type = "number" name = "l{{item.name}}" value = "0"> 
+            <br>
+        {% endif %}
+        
+    {% endif %}
+{% endfor %}
+
+<h2>Drinks</h2>
+
+{% for item in ing %}
+    {% if item.kind == 'd' %}
+
+        {% if item|isQIngredient %}
+            {{item.name}}: ${{item.price}}: <input type = "number" name = "{{item.name}}" value = "0"> <br>
+        {% endif %}
+
+        {% if item|isWIngredient %}
+            {{item.name}}: 
+            Small, ${{item.sPrice}}: <input type = "number" name = "s{{item.name}}" value = "0"> 
+            Medium, ${{item.mPrice}} <input type = "number" name = "m{{item.name}}" value = "0"> 
+            Large, ${{item.lPrice}} <input type = "number" name = "l{{item.name}}" value = "0"> 
+            <br>
+        {% endif %}
+        
+    {% endif %}
+{% endfor %}
+
+    <br><br>
+    <input type='submit' name ='add' value = 'Add or remove from order' />
+    <br>
+    <br>
+</form>
+<br>
+
+
+{{msg1}}
+<br>
+{{msg5}}
+<br>
+{{msg2}}
+<br>
+{{msg3}}
+<br>
+{{msg4}}
+<br>
+
+<form action="{{ url_for('base_main') }}">
+    <input type="submit" value="Choose from predesigned burgers and wraps" />
+</form>
+<form action="{{ url_for('custom_main') }}">
+    <input type="submit" value="Create your own custom gourmet burger or wrap" />
+</form>
+<form action="{{ url_for('checkout') }}">
+    <input type="submit" value="View cart and checkout" />
+</form>
+<br><br>
+{% endblock %}
